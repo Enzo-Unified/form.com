@@ -71,13 +71,13 @@
 			"DynamicParameter": {
 				"name": "",
 				"type": 0,
-				"data": "-- this command returns all existing data model IDs as pulled\n-- by the form_surveyGetALLModels. Apply a SQL filter here if you \n-- only need a subset of data model objects to be replicated\nSELECT DISTINCT r_id as modelId \nFROM demo.form.datamodels",
-				"connection": "sql2017",
+				"data": "-- this command returns all existing data model IDs as pulled\n-- by the form_surveyGetALLModels. Apply a SQL filter here if you \n-- only need a subset of data model objects to be replicated\nSELECT DISTINCT r_id as modelId \nFROM form.datamodels",
+				"connection": "sql",
 				"maxDop": 0,
 				"singleJobPerParam": false,
 				"addParamsToOutput": true
 			},
-			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\f0\\fs17 This job replicates all data model objects for every data models extracted by the form_surveyGetALLModels.json job.  \\par\r\n\\par\r\nIn this default configuration, this job uses a dynamic parameter that will call the Form endpoint for every model object in Form, as found in the demo.form.datamodels table. \\par\r\n\\par\r\nYou may need to configure the following settings:\\par\r\n\\par\r\n - The SQL used to identify the list of data models in the Dynamic Parameter setting\\par\r\n - The source Data Pipeline that modifies schema information\\par\r\n - The job schedule\\par\r\n - The target system target database and table name\\par\r\n\\par\r\nThis job uses a Target Data Pipeline to update a timestamp on the data model object, allowing you to identify the exact date when records were last updated. \\par\r\n\\par\r\n}\r\n",
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\f0\\fs17 This job replicates all data model objects for every data models extracted by the form_surveyGetALLModels.json job.  \\par\r\n\\par\r\nIn this default configuration, this job uses a dynamic parameter that will call the Form endpoint for every model object in Form, as found in the form.datamodels table. \\par\r\n\\par\r\nYou may need to configure the following settings:\\par\r\n\\par\r\n - The SQL used to identify the list of data models in the Dynamic Parameter setting\\par\r\n - The source Data Pipeline that modifies schema information\\par\r\n - The job schedule\\par\r\n - The target system target database and table name\\par\r\n\\par\r\nThis job uses a Target Data Pipeline to update a timestamp on the data model object, allowing you to identify the exact date when records were last updated. \\par\r\n\\par\r\n}\r\n",
 			"JobDocumentationZoomFactor": 1.4,
 			"Certificates": {
 				"SignatureCert": "",
@@ -99,7 +99,7 @@
 				"CanAffectData": true
 			},
 			{
-				"SQLCommand": "SELECT \n   T.*, \n   T2.[value] as id \nFROM @pipelinedata() T \nLEFT JOIN @pipelinedata() T2 \n   ON T.propertyId = T2.propertyId \n   AND T2.[key] =  (SELECT TOP 1 r_keyFieldName FROM demo.form.datamodels WHERE r_id = T.modelId) \n   AND T.modelId = T2.modelId",
+				"SQLCommand": "SELECT \n   T.*, \n   T2.[value] as id \nFROM @pipelinedata() T \nLEFT JOIN @pipelinedata() T2 \n   ON T.propertyId = T2.propertyId \n   AND T2.[key] =  (SELECT TOP 1 r_keyFieldName FROM form.datamodels WHERE r_id = T.modelId) \n   AND T.modelId = T2.modelId",
 				"ExecTimeout": 0,
 				"ReplaceDataSet": true,
 				"IgnoreOnError": false,
@@ -137,7 +137,7 @@
 			}
 		},
 		"TargetSystem": "SQLServer",
-		"TargetObject": "demo.form.datamodelobjects",
+		"TargetObject": "form.datamodelobjects",
 		"UpsertScript": "",
 		"DeleteScript": "",
 		"LastSchemaHash": null,
