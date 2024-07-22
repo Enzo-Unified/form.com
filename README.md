@@ -19,4 +19,7 @@ Generally, connections are found in the following places in jobs:
 - The connections used by Data Pipeline components (some components require a connection to function), for both source and target pipelines
 - The connection used by HTTP Finalization Options when logging is enabled 
 
+# Data Models
+## Design
+Data Models in Form.com represent lists that are used as part of surveys to select from a list of options, such as the location, a state code, or other information. 
 
