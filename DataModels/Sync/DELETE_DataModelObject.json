@@ -1,0 +1,118 @@
+{
+	"JobReader": {
+		"Guid": null,
+		"JobKey": "DELETE_DataModelObject",
+		"SqlRead": "SELECT \n\tF.* \t\nFROM         \n(\n   -- PROVIDE THE DATA MAPPING IN THE VIEWS\n   SELECT * FROM vAllModelJSON\n) T \nRIGHT JOIN \n   (SELECT modelId, propertyId, id, MAX(keyFieldName) as keyFieldName         \n\tFROM [Form].[datamodelobjects] \n\tWHERE modelId IN (SELECT DISTINCT _modelId_ FROM [dbo].vAllModelJSON)\n\tGROUP BY modelId, propertyId, id\n\t)\n\tF ON \n   T.[_modelid_] = F.modelId \n   AND CAST(T.[_keyid_] as NVARCHAR(255)) = CAST(F.[id] as NVARCHAR(255))\nWHERE T.[_keyid_] IS NULL",
+		"Path": "C:\\Tmp\\",
+		"UpsertColumns": "",
+		"TimestampCol": "",
+		"LastTsPointer": null,
+		"LastTsDelPointer": null,
+		"ConnectionString": "sql",
+		"PropagateDelete": false,
+		"SyncStrategy": "Full",
+		"CreatedOn": "2024-07-19T11:26:58.447",
+		"Status": "ready",
+		"Initialize": false,
+		"Active": true,
+		"LastRunTime": "2024-07-19T14:27:18.76",
+		"CronSchedule": "",
+		"JsonData": {
+			"AuditLogEnabled": true,
+			"KeepChangedLogFiles": false,
+			"EncryptionFile": "",
+			"BypassTopN": false,
+			"TopNOverride": 0,
+			"DirectWriter": "__DELETE_DataModelObject",
+			"ExecutionTimeout": 0,
+			"BypassSchemaDetection": false,
+			"DeletedRecordsMethod": 0,
+			"DeletedRecordsSQL": null,
+			"CDCTokenDeletedField": "",
+			"MessagingOptions": null,
+			"DriveSourceSettings": null,
+			"Column2TableTxSettings": null,
+			"HttpSourceSettings": null,
+			"BigDataSourceSettings": null,
+			"JobTriggers": [],
+			"JobTriggersEnabled": false,
+			"CDCSettings": null,
+			"DynamicParameter": null,
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}{\\f1\\fnil\\fcharset2 Symbol;}}\r\n{\\colortbl ;\\red0\\green0\\blue0;}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\cf1\\kerning24\\f0\\fs24 This job reads from a view (vAllModelJSON) that returns an aggregated list of records that represent the source data for Form.com Data Model Objects. This job assumes that all source records are extracted from the System of Record (SoR) and that Form.com object models need to be deleted if they exist. \\par\r\n\\par\r\n\\b About vAllModelJSON\\par\r\n\\b0\\par\r\nThis view must return source records along with all the necessary keys to update the target record in Form.com. If any record is no longer found in the source system (for example, the record was deleted or logically deactivated), this view will return fewer records, and the join with the Data Model Objects table will identify the records that should be deleted in Form.\\par\r\n\\par\r\nNOTE: This is a late-bound record identification method that does not require the use of CDC. \\par\r\n\\par\r\n\\b About the Target\\par\r\n\\b0\\par\r\nThe target is configured to process all incoming records, both New and Updated. Because Form.com requires a different payload for each, and because the changes are sent as a Key/Pair array, the target pipeline builds the expected payload for each record as an XML payload, which is injected in the target payload (the \\b\\{\\{xmlEntries\\}\\}\\b0  field). In addition, the body expects a different SOAP Action for inserts and updates; the target pipeline also calculates this field based on the record. \\par\r\n\\par\r\n\\b Considerations\\par\r\n\\b0\\par\r\n\r\n\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-450\\li450 This job assumes keys in Form.com are 255 characters or shorter\\par\r\n{\\pntext\\f1\\'B7\\tab}This job does not keep Change Logs by default and uses a DLQ folder to move failed logs that must exist  (the DLQ can be found under Advanced Settings -> Error Handling)\\par\r\n{\\pntext\\f1\\'B7\\tab}This job will stop processing if any error is detected; however, if you would like to push all changes even if a few fail, change the \\b Continue On HTTP Errors\\b0  setting accordingly. \\par\r\n\r\n\\pard\\par\r\n\\par\r\n\\par\r\n\\par\r\n\\cf0\\kerning0\\fs17\\par\r\n}\r\n",
+			"JobDocumentationZoomFactor": 1.0,
+			"Certificates": {
+				"SignatureCert": "",
+				"EncryptionCert": ""
+			}
+		},
+		"Tags": "form",
+		"SystemName": "SQLServer",
+		"PipelineDef": []
+	},
+	"JobWriter": {
+		"Guid": null,
+		"JobKey": "__DELETE_DataModelObject",
+		"Path": "C:\\Tmp\\",
+		"UpsertColumns": "",
+		"ConnectionString": "form_noToken",
+		"PropagateDelete": false,
+		"SourceJobKey": "DELETE_DataModelObject",
+		"LastExecutionId": null,
+		"InitialExecutionId": "",
+		"CreatedOn": "2024-07-19T11:26:58.44",
+		"Status": "ready",
+		"Active": true,
+		"LastRunTime": "2024-07-19T14:27:19.643",
+		"CronSchedule": "",
+		"JsonData": {
+			"EncryptionFile": "",
+			"Salt": "",
+			"KEK": "",
+			"Certificates": {
+				"CheckSignature": false
+			}
+		},
+		"TargetSystem": "HTTP",
+		"TargetObject": null,
+		"UpsertScript": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:aut=\"http://model.v81.api.keysurvey.com\">\n<soapenv:Header/>\n  <soapenv:Body>\n    <aut:deleteModelObject>\n        <modelId>{{modelId}}</modelId>\n        <modelObjectId>{{propertyId}}</modelObjectId>\n  </aut:deleteModelObject>\n</soapenv:Body>\n</soapenv:Envelope>",
+		"DeleteScript": "",
+		"LastSchemaHash": "",
+		"Options": {
+			"ExecTimeout": 5,
+			"BatchCount": 1,
+			"HttpUpsertSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "/Member/api/v81/model/DataModelsService",
+				"HTTPVerb": "POST",
+				"HTTPContentType": "text/xml",
+				"HTTPHeaders": "",
+				"HTTPPayload": null,
+				"IgnoreBatchErrorCodes": null,
+				"BatchFinalizationSettings": null
+				}
+			},
+			"HttpDeleteSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "",
+				"HTTPVerb": "",
+				"HTTPContentType": "",
+				"HTTPHeaders": "",
+				"HTTPPayload": null,
+				"IgnoreBatchErrorCodes": null,
+				"BatchFinalizationSettings": null
+			},
+			"AuditLogEnabled": true,
+			"ErrorHandling": {
+				"ActionOnFail": 2,
+				"RetryCount": 0,
+				"RetryTTLSeconds": 0,
+				"RetryExponential": false,
+				"DeadLetterQueuePath": "C:\\Tmp\\dlq"
+			}
+		},
+		"SystemName": "Generic",
+		"PipelineDef": "[]",
+		"Tags": ""
+	},
+	"InitializeOptions": null
+}
