@@ -2,7 +2,7 @@
 	"JobReader": {
 		"Guid": null,
 		"JobKey": "UPSERT_DataModelObjects",
-		"SqlRead": "SELECT  T._keyid_ as id, T._modelid_ as modelId, T._model_keyname_ as modelKeyName, T.jsonData\nFROM         \n(\n   -- PROVIDE THE DATA MAPPING IN THE VIEWS\n   SELECT * FROM [demo]..vAllModelJSON\n) T \nLEFT JOIN  (SELECT modelId, propertyId, id, MAX(keyFieldName) as keyFieldName\n         --, MAX(targetUpdatedOn) as targetUpdatedOn   -- this field helps detect changes in target that should trigger an update -- comment to ignore\n\tFROM [demo].[Form].[datamodelobjects] \n\tGROUP BY modelId, propertyId, id)\n\tF ON \n  T.[_modelid_] = F.modelId \n  AND T.[_model_keyname_] = F.[keyFieldName]\n  AND CAST(T.[_keyid_] as NVARCHAR(255)) = CAST(F.[id] as NVARCHAR(255))",
+		"SqlRead": "SELECT  T._keyid_ as id, T._modelid_ as modelId, T._model_keyname_ as modelKeyName, T.jsonData\nFROM         \n(\n   -- PROVIDE THE DATA MAPPING IN THE VIEWS\n   SELECT * FROM vAllModelJSON\n) T \nLEFT JOIN  (SELECT modelId, propertyId, id, MAX(keyFieldName) as keyFieldName\n         --, MAX(targetUpdatedOn) as targetUpdatedOn   -- this field helps detect changes in target that should trigger an update -- comment to ignore\n\tFROM [Form].[datamodelobjects] \n\tGROUP BY modelId, propertyId, id)\n\tF ON \n  T.[_modelid_] = F.modelId \n  AND T.[_model_keyname_] = F.[keyFieldName]\n  AND CAST(T.[_keyid_] as NVARCHAR(255)) = CAST(F.[id] as NVARCHAR(255))",
 		"Path": "C:\\Tmp",
 		"UpsertColumns": "id,modelId",
 		"TimestampCol": "",
@@ -45,7 +45,7 @@
 				"EncryptionCert": ""
 			}
 		},
-		"Tags": "formenzo",
+		"Tags": "form",
 		"SystemName": "SQLServer",
 		"PipelineDef": []
 	},
