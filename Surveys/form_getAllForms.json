@@ -1,0 +1,147 @@
+{
+	"JobReader": {
+		"Guid": null,
+		"JobKey": "form_getAllForms",
+		"SqlRead": "",
+		"Path": "c:\\tmp",
+		"UpsertColumns": "id",
+		"TimestampCol": "",
+		"LastTsPointer": null,
+		"LastTsDelPointer": null,
+		"ConnectionString": "form_noToken",
+		"PropagateDelete": false,
+		"SyncStrategy": "Full",
+		"CreatedOn": "2024-07-22T17:03:40.6411789Z",
+		"Status": "ready",
+		"Initialize": false,
+		"Active": true,
+		"LastRunTime": null,
+		"CronSchedule": "",
+		"JsonData": {
+			"AuditLogEnabled": true,
+			"KeepChangedLogFiles": true,
+			"EncryptionFile": "",
+			"BypassTopN": false,
+			"TopNOverride": 0,
+			"DirectWriter": "__form_getAllForms",
+			"ExecutionTimeout": 0,
+			"BypassSchemaDetection": true,
+			"DeletedRecordsMethod": 0,
+			"DeletedRecordsSQL": null,
+			"CDCTokenDeletedField": "",
+			"MessagingOptions": null,
+			"DriveSourceSettings": null,
+			"Column2TableTxSettings": null,
+			"HttpSourceSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "/Member/api/v81/form/design/FormDesignManagementService",
+				"HTTPVerb": "POST",
+				"HTTPContentType": "text/xml",
+				"HTTPHeaders": "[{\"Key\":\"Accept\",\"Value\":\"text/xml\"},{\"Key\":\"SOAP\",\"Value\":\"Action\"}]",
+				"HighWaterMark": "",
+				"HighWaterMarkParam": "",
+				"PagingStrategy": 0,
+				"OffsetStrategy": null,
+				"HTTPPayload": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:aut=\"http://design.form.v81.api.keysurvey.com\">\n<soapenv:Header/>\n  <soapenv:Body>\n<aut:getForms>\n    <accountId>6955196</accountId>\n  </aut:getForms>\n</soapenv:Body>\n</soapenv:Envelope>",
+				"ApplyContentTx": true,
+				"SelectedColumns": "",
+				"LastKnownHTTPParameters": null,
+				"LastKnownParameterFields": null,
+				"LastKnownSourceFields": [],
+				"PayloadTxSettings": {
+					"TxDocumentSourceColumn": "0",
+					"TxDocumentRootPath": "//return",
+					"TxDocumentMsgContentCol": "_raw",
+					"TxDocumentMsgSchema": ""
+				},
+				"IncludeByteOutput": false,
+				"BypassDateTimeConversion": true,
+				"LogSettings": {
+					"dbOptions": {
+						"connection": "",
+						"logHttpResponse": false,
+						"logTableName": "",
+						"logPayload": false
+					}
+				}
+			},
+			"BigDataSourceSettings": null,
+			"JobTriggers": [],
+			"JobTriggersEnabled": false,
+			"CDCSettings": null,
+			"DynamicParameter": null,
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\f0\\fs17 This job replicates all available form names and IDs in a database table called AllForms. This job does not sync any details about the forms.  \\par\r\n}\r\n",
+			"JobDocumentationZoomFactor": 1.5,
+			"Certificates": {
+				"SignatureCert": null,
+				"EncryptionCert": null
+			}
+		},
+		"Tags": "form",
+		"SystemName": "HTTP",
+		"PipelineDef": [
+			{
+				"SchemaDefinition": "string(50) versionId\nlong accountId\nstring(50) creationDate\nstring(1024) description\nlong id\nstring(1024) name\nstring(1024) title\nstring _raw",
+				"RemoveIfNotInList": true,
+				"MustSucceed": false,
+				"ApplyFunctionsByRow": false,
+				"Name": "DataApplySchema",
+				"UsesPipelineConnections": false,
+				"Disabled": false,
+				"CanAffectSchema": true,
+				"CanAffectData": true
+			}
+		]
+	},
+	"JobWriter": {
+		"Guid": null,
+		"JobKey": "__form_getAllForms",
+		"Path": "c:\\tmp",
+		"UpsertColumns": "id",
+		"ConnectionString": "sql",
+		"PropagateDelete": false,
+		"SourceJobKey": "form_getAllForms",
+		"LastExecutionId": null,
+		"InitialExecutionId": "",
+		"CreatedOn": "2024-02-12T15:54:55.977",
+		"Status": "ready",
+		"Active": true,
+		"LastRunTime": "2024-07-22T00:01:45.98",
+		"CronSchedule": "",
+		"JsonData": {
+			"EncryptionFile": "",
+			"Salt": "",
+			"KEK": "",
+			"Certificates": {
+				"CheckSignature": false
+			}
+		},
+		"TargetSystem": "SQLServer",
+		"TargetObject": "AllForms",
+		"UpsertScript": "",
+		"DeleteScript": "",
+		"LastSchemaHash": null,
+		"Options": {
+			"ExecTimeout": 0,
+			"BatchCount": 1000,
+			"InitScript": "",
+			"FinalScript": "",
+			"AutoAdjustTargetSchema": false,
+			"AutoAdjustNewColumns": false,
+			"AutoAdjustExistingColumns": false,
+			"AutoAddTrackingDateFields": false,
+			"AuditLogEnabled": true,
+			"ErrorHandling": {
+				"ActionOnFail": 0,
+				"RetryCount": 0,
+				"RetryTTLSeconds": 0,
+				"RetryExponential": false,
+				"DeadLetterQueuePath": ""
+			}
+		},
+		"SystemName": "SQLServer",
+		"PipelineDef": "[]",
+		"Tags": ""
+	},
+	"InitializeOptions": null
+}
