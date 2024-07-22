@@ -105,7 +105,7 @@
 			}
 		},
 		"TargetSystem": "SQLServer",
-		"TargetObject": "demo.form.datamodels",
+		"TargetObject": "form.datamodels",
 		"UpsertScript": "",
 		"DeleteScript": "",
 		"LastSchemaHash": "",
