@@ -111,7 +111,7 @@
 			}
 		},
 		"TargetSystem": "SQLServer",
-		"TargetObject": "enzo.surveys",
+		"TargetObject": "surveys",
 		"UpsertScript": "",
 		"DeleteScript": "",
 		"LastSchemaHash": null,
