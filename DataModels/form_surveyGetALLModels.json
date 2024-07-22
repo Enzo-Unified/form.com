@@ -1,0 +1,135 @@
+{
+	"JobReader": {
+		"Guid": null,
+		"JobKey": "form_surveyGetALLModels",
+		"SqlRead": "",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "id",
+		"TimestampCol": "",
+		"LastTsPointer": null,
+		"LastTsDelPointer": null,
+		"ConnectionString": "form_noToken",
+		"PropagateDelete": true,
+		"SyncStrategy": "Full",
+		"CreatedOn": "2024-06-24T20:29:34.81",
+		"Status": "ready",
+		"Initialize": false,
+		"Active": true,
+		"LastRunTime": null,
+		"CronSchedule": "",
+		"JsonData": {
+			"AuditLogEnabled": true,
+			"KeepChangedLogFiles": true,
+			"EncryptionFile": "",
+			"BypassTopN": false,
+			"TopNOverride": 0,
+			"DirectWriter": "__form_surveyGetALLModels",
+			"ExecutionTimeout": 0,
+			"BypassSchemaDetection": true,
+			"DeletedRecordsMethod": 0,
+			"DeletedRecordsSQL": null,
+			"CDCTokenDeletedField": "",
+			"MessagingOptions": null,
+			"DriveSourceSettings": null,
+			"Column2TableTxSettings": null,
+			"HttpSourceSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "/Member/api/v81/model/DataModelsService",
+				"HTTPVerb": "POST",
+				"HTTPContentType": "text/xml",
+				"HTTPHeaders": "[{\"Key\":\"Accept\",\"Value\":\"text/xml\"},{\"Key\":\"SOAP\",\"Value\":\"Action\"}]",
+				"HighWaterMark": "",
+				"HighWaterMarkParam": "",
+				"PagingStrategy": 0,
+				"OffsetStrategy": null,
+				"HTTPPayload": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:aut=\"http://model.v81.api.keysurvey.com\">\n<soapenv:Header/>\n  <soapenv:Body>\n    <aut:listModels>\n   </aut:listModels>\n</soapenv:Body>\n</soapenv:Envelope>",
+				"ApplyContentTx": true,
+				"SelectedColumns": "",
+				"LastKnownHTTPParameters": null,
+				"LastKnownParameterFields": null,
+				"LastKnownSourceFields": [],
+				"PayloadTxSettings": {
+					"TxDocumentSourceColumn": "0",
+					"TxDocumentRootPath": "//columns || t_=columnType || r_=../.",
+					"TxDocumentMsgContentCol": "",
+					"TxDocumentMsgSchema": ""
+				},
+				"IncludeByteOutput": false,
+				"BypassDateTimeConversion": true,
+				"LogSettings": {
+					"dbOptions": {
+						"connection": "",
+						"logHttpResponse": false,
+						"logTableName": "",
+						"logPayload": false
+					}
+				}
+			},
+			"BigDataSourceSettings": null,
+			"JobTriggers": [],
+			"JobTriggersEnabled": false,
+			"CDCSettings": null,
+			"DynamicParameter": null,
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\f0\\fs17 This job pulls all Data Models from Form.com into a database and implements CDC to push new, updated, and deleted models automatically.\\par\r\n\\par\r\nThe following settings may need to be changed:\\par\r\n\\par\r\n - The job schedule \\par\r\n - The target database and table name\\par\r\n - Optionally, apply a filter in the data pipeline (source or target) to replicate a subset of data models\\par\r\n\\par\r\n}\r\n",
+			"JobDocumentationZoomFactor": 1.0,
+			"Certificates": {
+				"SignatureCert": "",
+				"EncryptionCert": ""
+			}
+		},
+		"Tags": "form",
+		"SystemName": "HTTP",
+		"PipelineDef": []
+	},
+	"JobWriter": {
+		"Guid": null,
+		"JobKey": "__form_surveyGetALLModels",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "id",
+		"ConnectionString": "sql",
+		"PropagateDelete": true,
+		"SourceJobKey": "form_surveyGetALLModels",
+		"LastExecutionId": null,
+		"InitialExecutionId": "",
+		"CreatedOn": "2024-07-18T16:33:38.907",
+		"Status": "ready",
+		"Active": true,
+		"LastRunTime": null,
+		"CronSchedule": "",
+		"JsonData": {
+			"EncryptionFile": "",
+			"Salt": "",
+			"KEK": "",
+			"Certificates": {
+				"CheckSignature": false
+			}
+		},
+		"TargetSystem": "SQLServer",
+		"TargetObject": "demo.form.datamodels",
+		"UpsertScript": "",
+		"DeleteScript": "",
+		"LastSchemaHash": "",
+		"Options": {
+			"ExecTimeout": 0,
+			"BatchCount": 1000,
+			"InitScript": "",
+			"FinalScript": "",
+			"AutoAdjustTargetSchema": false,
+			"AutoAdjustNewColumns": false,
+			"AutoAdjustExistingColumns": false,
+			"AutoAddTrackingDateFields": false,
+			"AuditLogEnabled": true,
+			"ErrorHandling": {
+				"ActionOnFail": 0,
+				"RetryCount": 0,
+				"RetryTTLSeconds": 0,
+				"RetryExponential": false,
+				"DeadLetterQueuePath": ""
+			}
+		},
+		"SystemName": "SQLServer",
+		"PipelineDef": "[]",
+		"Tags": ""
+	},
+	"InitializeOptions": null
+}
