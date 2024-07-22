@@ -1,0 +1,141 @@
+{
+	"JobReader": {
+		"Guid": null,
+		"JobKey": "form_SurveysLast7Days",
+		"SqlRead": "",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "ResponseID,KsID,KsSurveyID",
+		"TimestampCol": "",
+		"LastTsPointer": null,
+		"LastTsDelPointer": null,
+		"ConnectionString": "form_noToken",
+		"PropagateDelete": false,
+		"SyncStrategy": "Full",
+		"CreatedOn": "2024-06-25T17:25:54.727",
+		"Status": "ready",
+		"Initialize": false,
+		"Active": true,
+		"LastRunTime": "2024-06-25T17:57:02.4",
+		"CronSchedule": "",
+		"JsonData": {
+			"AuditLogEnabled": true,
+			"KeepChangedLogFiles": true,
+			"EncryptionFile": "",
+			"BypassTopN": false,
+			"TopNOverride": 0,
+			"DirectWriter": "__form_SurveysLast7Days",
+			"ExecutionTimeout": 0,
+			"BypassSchemaDetection": true,
+			"DeletedRecordsMethod": 0,
+			"DeletedRecordsSQL": null,
+			"CDCTokenDeletedField": "",
+			"MessagingOptions": null,
+			"DriveSourceSettings": null,
+			"Column2TableTxSettings": null,
+			"HttpSourceSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "/servlet/ExportSurveyToXML/export?plain=1&importResponses=1&selectedSurveys=YOUR_SURVEY_ID&rbrLink=true&dateFrom=#dateadd(#now(), -7d, yyyy-MM-ddT00:00:00)&dateTo=#formatDate(#now(), yyyy-MM-ddT00:00:00)",
+				"HTTPVerb": "GET",
+				"HTTPContentType": "",
+				"HTTPHeaders": "[{\"Key\":\"Accept\",\"Value\":\"text/xml\"}]",
+				"HighWaterMark": "SubmitDateTime",
+				"HighWaterMarkParam": "dateFrom",
+				"PagingStrategy": 0,
+				"OffsetStrategy": null,
+				"HTTPPayload": "",
+				"ApplyContentTx": true,
+				"SelectedColumns": "",
+				"LastKnownHTTPParameters": null,
+				"LastKnownParameterFields": null,
+				"LastKnownSourceFields": [],
+				"PayloadTxSettings": {
+					"TxDocumentSourceColumn": "0",
+					"TxDocumentRootPath": "//Response || ..",
+					"TxDocumentMsgContentCol": "",
+					"TxDocumentMsgSchema": ""
+				},
+				"IncludeByteOutput": false,
+				"BypassDateTimeConversion": true,
+				"LogSettings": null
+				}
+			},
+			"BigDataSourceSettings": null,
+			"JobTriggers": [],
+			"JobTriggersEnabled": false,
+			"CDCSettings": null,
+			"DynamicParameter": null,
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}{\\f1\\fnil\\fcharset2 Symbol;}}\r\n{\\colortbl ;\\red0\\green0\\blue0;}\r\n{\\*\\generator Riched20 10.0.22621}\\viewkind4\\uc1 \r\n\\pard\\cf1\\kerning24\\f0\\fs24 This job extracts the last 7 days\\rquote  worth of surveys for a single form, completed or not, relative to the current system date.  All responses are returned along with the corresponding questions and answers. However, this call does not return the question or answer metadata. \\par\r\n\\par\r\n/servlet/ExportSurveyToXML/export?plain=1&importResponses=1&selectedSurveys=41738305&rbrLink=true&dateFrom=#dateadd(#now(), -7d, yyyy-MM-ddT00:00:00)&dateTo=#formatDate(#now(), yyyy-MM-ddT00:00:00)\\par\r\n\\par\r\n\r\n\\pard{\\pntext\\f1\\'B7\\tab}{\\*\\pn\\pnlvlblt\\pnf1\\pnindent0{\\pntxtb\\'B7}}\\fi-450\\li450 The survey (form) being requested is specified by the \\b selectedSurveys\\b0  parameter; update accordingly \\par\r\n{\\pntext\\f1\\'B7\\tab}The dateFrom and dateTo parameters are calculated based on the current system; note that requesting data for more than 5-7 days may timeout \\par\r\n{\\pntext\\f1\\'B7\\tab}To import two or more surveys, either add the list of survey ids to the \\b selectedSurveys\\b0  parameter separated by a comma, or use Dynamic Parameters\\par\r\n{\\pntext\\f1\\'B7\\tab}To limit the export to completed surveys only, add this parameter: completesOnly=true \\par\r\n\r\n\\pard\\par\r\nThis job is configured to return all the necessary fields; the source Data Pipeline transforms the schema to the expected data types.  \\par\r\n\\par\r\nThe replication settings use CDC to identify changes to surveys. \\par\r\n\\par\r\nThe target object is a relational table in a SQL Server database. \\par\r\n\\par\r\n\\cf0\\kerning0\\fs17\\par\r\n}\r\n",
+			"JobDocumentationZoomFactor": 1.0,
+			"Certificates": {
+				"SignatureCert": "",
+				"EncryptionCert": ""
+			}
+		},
+		"Tags": "form",
+		"SystemName": "HTTP",
+		"PipelineDef": [
+			{
+				"SchemaDefinition": "long InternalRespondentId\nlong ResponseID\nlong QuestionID\nlong ColumnID\nlong AnswerID\nstring Value\nint Weight\nlong RespondentID\nlong KsID\nlong SurveyID\nlong KsSurveyID\nint Completed\nstring(50) SubmitDateTime\nstring(255) RbrLink",
+				"RemoveIfNotInList": true,
+				"MustSucceed": false,
+				"ApplyFunctionsByRow": false,
+				"Name": "DataApplySchema",
+				"UsesPipelineConnections": false,
+				"Disabled": false,
+				"CanAffectSchema": true,
+				"CanAffectData": true
+			}
+		]
+	},
+	"JobWriter": {
+		"Guid": null,
+		"JobKey": "__form_SurveysLast7Days",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "ResponseID,KsID,KsSurveyID",
+		"ConnectionString": "sql",
+		"PropagateDelete": false,
+		"SourceJobKey": "form_SurveysLast7Days",
+		"LastExecutionId": null,
+		"InitialExecutionId": "",
+		"CreatedOn": "2024-06-25T17:49:46.29",
+		"Status": "ready",
+		"Active": true,
+		"LastRunTime": "2024-06-25T17:57:14.367",
+		"CronSchedule": "",
+		"JsonData": {
+			"EncryptionFile": "",
+			"Salt": "",
+			"KEK": "",
+			"Certificates": {
+				"CheckSignature": false
+			}
+		},
+		"TargetSystem": "SQLServer",
+		"TargetObject": "enzo.surveys",
+		"UpsertScript": "",
+		"DeleteScript": "",
+		"LastSchemaHash": null,
+		"Options": {
+			"ExecTimeout": 0,
+			"BatchCount": 1000,
+			"InitScript": "",
+			"FinalScript": "",
+			"AutoAdjustTargetSchema": false,
+			"AutoAdjustNewColumns": false,
+			"AutoAdjustExistingColumns": false,
+			"AutoAddTrackingDateFields": false,
+			"AuditLogEnabled": true,
+			"ErrorHandling": {
+				"ActionOnFail": 0,
+				"RetryCount": 0,
+				"RetryTTLSeconds": 0,
+				"RetryExponential": false,
+				"DeadLetterQueuePath": ""
+			}
+		},
+		"SystemName": "SQLServer",
+		"PipelineDef": "[]",
+		"Tags": ""
+	},
+	"InitializeOptions": null
+}
