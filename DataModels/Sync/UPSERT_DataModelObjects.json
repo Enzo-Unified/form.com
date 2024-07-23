@@ -89,8 +89,7 @@
 				"HTTPPayload": null,
 				"IgnoreBatchErrorCodes": null,
 				"BatchFinalizationSettings": null
-				}
-			},
+				},
 			"HttpDeleteSettings": {
 				"IsRESTRequest": false,
 				"HTTPURI": "",
