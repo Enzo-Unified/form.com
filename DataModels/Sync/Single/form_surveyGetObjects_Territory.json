@@ -1,0 +1,183 @@
+{
+	"JobReader": {
+		"Guid": null,
+		"JobKey": "form_surveyGetObjects_Territory",
+		"SqlRead": "",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "key,modelId,propertyId",
+		"TimestampCol": "",
+		"LastTsPointer": null,
+		"LastTsDelPointer": null,
+		"ConnectionString": "form_noToken",
+		"PropagateDelete": false,
+		"SyncStrategy": "Full",
+		"CreatedOn": "2024-07-23T16:59:06.943",
+		"Status": "ready",
+		"Initialize": false,
+		"Active": true,
+		"LastRunTime": "2024-07-23T17:00:18.577",
+		"CronSchedule": "",
+		"JsonData": {
+			"AuditLogEnabled": true,
+			"KeepChangedLogFiles": true,
+			"EncryptionFile": "",
+			"BypassTopN": false,
+			"TopNOverride": 0,
+			"DirectWriter": "__form_surveyGetObjects_Territory",
+			"ExecutionTimeout": 0,
+			"BypassSchemaDetection": true,
+			"DeletedRecordsMethod": 0,
+			"DeletedRecordsSQL": null,
+			"CDCTokenDeletedField": "",
+			"MessagingOptions": null,
+			"DriveSourceSettings": null,
+			"Column2TableTxSettings": null,
+			"HttpSourceSettings": {
+				"IsRESTRequest": false,
+				"HTTPURI": "/Member/api/v81/model/DataModelsService",
+				"HTTPVerb": "POST",
+				"HTTPContentType": "text/xml",
+				"HTTPHeaders": "[{\"Key\":\"Accept\",\"Value\":\"text/xml\"},{\"Key\":\"SOAP\",\"Value\":\"Action\"}]",
+				"HighWaterMark": "",
+				"HighWaterMarkParam": "",
+				"PagingStrategy": 0,
+				"OffsetStrategy": null,
+				"HTTPPayload": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:aut=\"http://model.v81.api.keysurvey.com\">\n<soapenv:Header/>\n  <soapenv:Body>\n    <aut:getModelObjectsByFilter>\n    <modelId>{{@param.modelId}}</modelId>\n    <filterId></filterId>\n  </aut:getModelObjectsByFilter>\n</soapenv:Body>\n</soapenv:Envelope>",
+				"ApplyContentTx": true,
+				"SelectedColumns": "",
+				"LastKnownHTTPParameters": null,
+				"LastKnownParameterFields": null,
+				"LastKnownSourceFields": null,
+				"PayloadTxSettings": {
+					"TxDocumentSourceColumn": "0",
+					"TxDocumentRootPath": "//entry || ../..",
+					"TxDocumentMsgContentCol": "",
+					"TxDocumentMsgSchema": ""
+				},
+				"IncludeByteOutput": false,
+				"BypassDateTimeConversion": true,
+				"LogSettings": {
+					"dbOptions": {
+						"connection": "",
+						"logHttpResponse": false,
+						"logTableName": "",
+						"logPayload": false
+					}
+				}
+			},
+			"BigDataSourceSettings": null,
+			"JobTriggers": [],
+			"JobTriggersEnabled": false,
+			"CDCSettings": null,
+			"DynamicParameter": {
+				"name": "",
+				"type": 0,
+				"data": "SELECT 12345678 as modelId -- enter your warehouse modelId here",
+				"connection": "sql",
+				"maxDop": 0,
+				"singleJobPerParam": false,
+				"addParamsToOutput": true
+			},
+			"JobDocumentation": "{\\rtf1\\ansi\\ansicpg1252\\deff0\\nouicompat\\deflang1033{\\fonttbl{\\f0\\fnil\\fcharset0 Microsoft Sans Serif;}}\r\n{\\*\\generator Riched20 10.0.17763}\\viewkind4\\uc1 \r\n\\pard\\f0\\fs17 This job replicates all data model objects for every data models extracted by the form_surveyGetALLModels.json job.  \\par\r\n\\par\r\nIn this default configuration, this job uses a dynamic parameter that will call the Form endpoint for every model object in Form, as found in the form.datamodels table. \\par\r\n\\par\r\nYou may need to configure the following settings:\\par\r\n\\par\r\n - The SQL used to identify the list of data models in the Dynamic Parameter setting\\par\r\n - The source Data Pipeline that modifies schema information\\par\r\n - The job schedule\\par\r\n - The target system target database and table name\\par\r\n\\par\r\nThis job uses a Target Data Pipeline to update a timestamp on the data model object, allowing you to identify the exact date when records were last updated. \\par\r\n\\par\r\n}\r\n",
+			"JobDocumentationZoomFactor": 1.4,
+			"Certificates": {
+				"SignatureCert": "",
+				"EncryptionCert": ""
+			}
+		},
+		"Tags": "form-models",
+		"SystemName": "HTTP",
+		"PipelineDef": [
+			{
+				"SchemaDefinition": "string(255) propertyId||{{id}}\nstring(255) keyFieldName\nstring(255) key\nstring(255) value\nlong modelId\n",
+				"RemoveIfNotInList": true,
+				"MustSucceed": false,
+				"ApplyFunctionsByRow": false,
+				"Name": "DataApplySchema",
+				"UsesPipelineConnections": false,
+				"Disabled": false,
+				"CanAffectSchema": true,
+				"CanAffectData": true
+			},
+			{
+				"SQLCommand": "SELECT \n   T.*, \n   T2.[value] as id \nFROM @pipelinedata() T \nLEFT JOIN @pipelinedata() T2 \n   ON T.propertyId = T2.propertyId \n   AND T2.[key] =  (SELECT TOP 1 r_keyFieldName FROM form.datamodels WHERE r_id = T.modelId) \n   AND T.modelId = T2.modelId",
+				"ExecTimeout": 0,
+				"ReplaceDataSet": true,
+				"IgnoreOnError": false,
+				"ConnectionKey": "sql",
+				"PipelineConnections": null,
+				"Name": "DataRunSQL",
+				"UsesPipelineConnections": true,
+				"Disabled": false,
+				"CanAffectSchema": true,
+				"CanAffectData": true
+			}
+		]
+	},
+	"JobWriter": {
+		"Guid": null,
+		"JobKey": "__form_surveyGetObjects_Territory",
+		"Path": "C:\\Tmp",
+		"UpsertColumns": "key,modelId,propertyId",
+		"ConnectionString": "sql",
+		"PropagateDelete": false,
+		"SourceJobKey": "form_surveyGetObjects_Territory",
+		"LastExecutionId": null,
+		"InitialExecutionId": "",
+		"CreatedOn": "2024-07-23T16:59:06.94",
+		"Status": "ready",
+		"Active": true,
+		"LastRunTime": "2024-07-23T17:00:20.47",
+		"CronSchedule": "",
+		"JsonData": {
+			"EncryptionFile": "",
+			"Salt": "",
+			"KEK": "",
+			"Certificates": {
+				"CheckSignature": false
+			}
+		},
+		"TargetSystem": "SQLServer",
+		"TargetObject": "form.datamodelobjects",
+		"UpsertScript": "",
+		"DeleteScript": "",
+		"LastSchemaHash": "",
+		"Options": {
+			"ExecTimeout": 0,
+			"BatchCount": 1000,
+			"InitScript": "",
+			"FinalScript": "",
+			"AutoAdjustTargetSchema": false,
+			"AutoAdjustNewColumns": false,
+			"AutoAdjustExistingColumns": false,
+			"AutoAddTrackingDateFields": false,
+			"AuditLogEnabled": true,
+			"ErrorHandling": {
+				"ActionOnFail": 0,
+				"RetryCount": 0,
+				"RetryTTLSeconds": 0,
+				"RetryExponential": false,
+				"DeadLetterQueuePath": ""
+			}
+		},
+		"SystemName": "SQLServer",
+		"PipelineDef": [
+			{
+				"ColumnName": "targetUpdatedOn",
+				"DataType": "DateTime",
+				"ExpressionType": "Enzo Expression (Enzo Functions)",
+				"SQLExpression": "#utcnow()",
+				"MaxLength": -1,
+				"IgnoreIfExists": false,
+				"PipelineConnections": null,
+				"Name": "DataDynamicColumn",
+				"UsesPipelineConnections": false,
+				"Disabled": false,
+				"CanAffectSchema": true,
+				"CanAffectData": true
+			}
+		],
+		"Tags": ""
+	},
+	"InitializeOptions": null
+}
